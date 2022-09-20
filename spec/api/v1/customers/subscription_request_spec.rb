@@ -32,4 +32,11 @@ RSpec.describe 'Tea Subscription API' do
 
   end
 
+  it 'creates a new subscription' do
+    customer1 = Customer.new(first_name: "Jim", last_name: "Raddle", email: "test@test.com", address: "drury lane")
+    tea1 = Tea.new(title: "black tea", description: "some pretty good black tea", temperature: 80, brew_time: 5)
+    tea2 = Tea.new(title: "green tea", description: "some pretty green black tea", temperature: 100, brew_time: 15)
+
+  end
+
 end
