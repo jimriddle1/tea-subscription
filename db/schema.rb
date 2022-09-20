@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_20_165518) do
+ActiveRecord::Schema.define(version: 2022_09_20_170532) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,17 @@ ActiveRecord::Schema.define(version: 2022_09_20_165518) do
     t.string "address"
   end
 
+  create_table "subscriptions", force: :cascade do |t|
+    t.string "title"
+    t.string "price"
+    t.integer "status", default: 0
+    t.integer "frequency"
+    t.bigint "tea_id"
+    t.bigint "customer_id"
+    t.index ["customer_id"], name: "index_subscriptions_on_customer_id"
+    t.index ["tea_id"], name: "index_subscriptions_on_tea_id"
+  end
+
   create_table "teas", force: :cascade do |t|
     t.string "title"
     t.string "description"
@@ -29,4 +40,6 @@ ActiveRecord::Schema.define(version: 2022_09_20_165518) do
     t.integer "brew_time"
   end
 
+  add_foreign_key "subscriptions", "customers"
+  add_foreign_key "subscriptions", "teas"
 end
