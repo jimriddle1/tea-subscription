@@ -22,7 +22,12 @@ class Api::V1::SubscriptionsController < ApplicationController
   end
 
   def update
-    binding.pry
+    subscription = Subscription.update(params[:id], subscription_params)
+    if subscription.save
+      render json: SubscriptionSerializer.new(subscription)
+    else
+      render json: { data: { errors: user.errors.messages.values.join} }, status: 401
+    end
   end
 
   private
