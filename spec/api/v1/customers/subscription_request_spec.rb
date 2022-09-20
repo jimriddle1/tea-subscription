@@ -33,9 +33,29 @@ RSpec.describe 'Tea Subscription API' do
   end
 
   it 'creates a new subscription' do
-    customer1 = Customer.new(first_name: "Jim", last_name: "Raddle", email: "test@test.com", address: "drury lane")
-    tea1 = Tea.new(title: "black tea", description: "some pretty good black tea", temperature: 80, brew_time: 5)
-    tea2 = Tea.new(title: "green tea", description: "some pretty green black tea", temperature: 100, brew_time: 15)
+    customer1 = Customer.create(first_name: "Jim", last_name: "Raddle", email: "test@test.com", address: "drury lane")
+    tea1 = Tea.create(title: "black tea", description: "some pretty good black tea", temperature: 80, brew_time: 5)
+    tea2 = Tea.create(title: "green tea", description: "some pretty green black tea", temperature: 100, brew_time: 15)
+
+    subscription_params = {
+      tea_id: "#{tea1.id}",
+      title: "first subscription",
+      price: "40 dollars",
+      frequency: "weekly"
+    }
+
+    # post "/api/v1/customers/#{customer1.id}/subscriptions", params: JSON.generate(subscription_params)
+    post "/api/v1/customers/#{customer1.id}/subscriptions", params: subscription_params
+
+    # post "/api/v1/customers/#{customer.id}/subscriptions", params: params
+    expect(response).to be_successful
+    response_body = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response_body[:data][:attributes][:title]).to eq("first subscription")
+    expect(response_body[:data][:attributes][:price]).to eq("40 dollars")
+    expect(response_body[:data][:attributes][:frequency]).to eq("weekly")
+    expect(response_body[:data][:attributes][:status]).to eq("active")
+    # binding.pry
 
   end
 
