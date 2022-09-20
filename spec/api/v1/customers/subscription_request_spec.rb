@@ -59,4 +59,25 @@ RSpec.describe 'Tea Subscription API' do
 
   end
 
+  it 'cancels a subscription' do
+    customer1 = Customer.create(first_name: "Jim", last_name: "Raddle", email: "test@test.com", address: "drury lane")
+    tea1 = Tea.create(title: "black tea", description: "some pretty good black tea", temperature: 80, brew_time: 5)
+
+    subscription1 = Subscription.create(customer: customer1, tea: tea1, title: "babys first subscription", price: "50 dollars", status: "active", frequency: "weekly")
+    # application_pets_1 = ApplicationPet.create(pet: pet_1, application_form: applicationform_1)
+    subscription_params = {
+      status: "cancelled"
+    }
+    patch "/api/v1/customers/#{customer1.id}/subscriptions/#{subscription1.id}", params: subscription_params
+
+    expect(response).to be_successful
+    response_body = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response_body[:data][:attributes][:title]).to eq("babys first subscription")
+    expect(response_body[:data][:attributes][:price]).to eq("50 dollars")
+    expect(response_body[:data][:attributes][:frequency]).to eq("weekly")
+    expect(response_body[:data][:attributes][:status]).to eq("cancelled")
+
+  end
+
 end
