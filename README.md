@@ -7,8 +7,6 @@
 
 ---
 
----
-
 # Learning Goals
 
 - Sad path testing and functionality
@@ -16,7 +14,6 @@
 
 ---
 
----
 # Schema - 
 
 ![Screen Shot 2022-09-22 at 4 17 10 PM](https://user-images.githubusercontent.com/99755958/191854081-8dfd79c1-cb68-4985-a161-bc34cd2a516c.png)
