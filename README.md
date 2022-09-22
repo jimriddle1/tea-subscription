@@ -1,11 +1,11 @@
-
----
-# Schema - 
-
-![Screen Shot 2022-09-22 at 4 17 10 PM](https://user-images.githubusercontent.com/99755958/191854081-8dfd79c1-cb68-4985-a161-bc34cd2a516c.png)
-
 ---
 
+# Overview
+
+- Take Home challenge in which the develoepr was asked to expose three endpoints of a sample tea subscription service
+- Explores a many to many relationship, where Customers have many Teas through Subscriptions, and vice versa
+
+---
 
 ---
 
@@ -16,10 +16,14 @@
 
 ---
 
+---
+# Schema - 
+
+![Screen Shot 2022-09-22 at 4 17 10 PM](https://user-images.githubusercontent.com/99755958/191854081-8dfd79c1-cb68-4985-a161-bc34cd2a516c.png)
+
+---
 
 # API Usage
-
-
 
 - Available Endpoints:
   - [Creating Subscription](#CREATE)
