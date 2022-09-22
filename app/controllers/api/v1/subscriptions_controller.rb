@@ -1,8 +1,13 @@
 class Api::V1::SubscriptionsController < ApplicationController
 
   def index
-    customer = Customer.find(params[:customer_id])
-    render json: SubscriptionSerializer.new(customer.subscriptions)
+    # binding.pry
+    if Customer.where("id = #{params[:customer_id]}").count == 0
+      render json: { data: { errors: "Customer does not exist"} }, status: 401
+    else
+      customer = Customer.find(params[:customer_id])
+      render json: SubscriptionSerializer.new(customer.subscriptions)
+    end
   end
 
   def create
@@ -16,18 +21,25 @@ class Api::V1::SubscriptionsController < ApplicationController
     if subscription.save
       render json: SubscriptionSerializer.new(subscription)
     else
-      render json: { data: { errors: user.errors.messages.values.join} }, status: 401
+      render json: { data: { errors: subscription.errors.full_messages} }, status: 401
     end
 
   end
 
   def update
-    subscription = Subscription.update(params[:id], subscription_params)
-    if subscription.save
-      render json: SubscriptionSerializer.new(subscription)
+    if Subscription.where("id = #{params[:id]}").count == 0
+      render json: { data: { errors: "Subscription does not exist"} }, status: 401
     else
-      render json: { data: { errors: user.errors.messages.values.join} }, status: 401
+      subscription = Subscription.update(params[:id], subscription_params)
+      if subscription.save
+        render json: SubscriptionSerializer.new(subscription)
+      else
+        binding.pry
+        render json: { data: { errors: subscription.errors.full_messages} }, status: 401
+      end
     end
+
+
   end
 
   private

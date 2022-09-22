@@ -182,3 +182,284 @@ puma (3.12.6) lib/puma/thread_pool.rb:135:in `block in spawn_thread'
   ↳ bin/rails:9
   [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
   ↳ bin/rails:9
+  [1m[36mTea Load (2.7ms)[0m  [1m[34mSELECT  "teas".* FROM "teas" LIMIT $1[0m  [["LIMIT", 11]]
+  [1m[36mCustomer Load (1.9ms)[0m  [1m[34mSELECT  "customers".* FROM "customers" LIMIT $1[0m  [["LIMIT", 11]]
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCustomer Create (11.3ms)[0m  [1m[32mINSERT INTO "customers" ("first_name", "last_name", "email", "address") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["first_name", "Jim"], ["last_name", "Raddle"], ["email", "test@test.com"], ["address", "drury lane"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mCustomer Load (0.6ms)[0m  [1m[34mSELECT  "customers".* FROM "customers" LIMIT $1[0m  [["LIMIT", 11]]
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTea Create (5.8ms)[0m  [1m[32mINSERT INTO "teas" ("title", "description", "temperature", "brew_time") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["title", "black tea"], ["description", "some pretty good black tea"], ["temperature", 80], ["brew_time", 5]]
+  [1m[35m (6.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTea Create (7.3ms)[0m  [1m[32mINSERT INTO "teas" ("title", "description", "temperature", "brew_time") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["title", "green tea"], ["description", "some pretty green black tea"], ["temperature", 100], ["brew_time", 15]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/api/v1/subscriptions" for ::1 at 2022-09-22 15:22:55 -0500
+  [1m[35m (3.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  ↳ /Users/jamesriddle/.rbenv/versions/2.7.4/lib/ruby/gems/2.7.0/gems/activerecord-5.2.8.1/lib/active_record/log_subscriber.rb:98
+  
+ActionController::RoutingError (No route matches [GET] "/api/v1/subscriptions"):
+  
+actionpack (5.2.8.1) lib/action_dispatch/middleware/debug_exceptions.rb:65:in `call'
+actionpack (5.2.8.1) lib/action_dispatch/middleware/show_exceptions.rb:33:in `call'
+railties (5.2.8.1) lib/rails/rack/logger.rb:38:in `call_app'
+railties (5.2.8.1) lib/rails/rack/logger.rb:26:in `block in call'
+activesupport (5.2.8.1) lib/active_support/tagged_logging.rb:71:in `block in tagged'
+activesupport (5.2.8.1) lib/active_support/tagged_logging.rb:28:in `tagged'
+activesupport (5.2.8.1) lib/active_support/tagged_logging.rb:71:in `tagged'
+railties (5.2.8.1) lib/rails/rack/logger.rb:26:in `call'
+actionpack (5.2.8.1) lib/action_dispatch/middleware/remote_ip.rb:81:in `call'
+actionpack (5.2.8.1) lib/action_dispatch/middleware/request_id.rb:27:in `call'
+rack (2.2.4) lib/rack/runtime.rb:22:in `call'
+activesupport (5.2.8.1) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (5.2.8.1) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (5.2.8.1) lib/action_dispatch/middleware/static.rb:127:in `call'
+rack (2.2.4) lib/rack/sendfile.rb:110:in `call'
+railties (5.2.8.1) lib/rails/engine.rb:524:in `call'
+puma (3.12.6) lib/puma/configuration.rb:227:in `call'
+puma (3.12.6) lib/puma/server.rb:706:in `handle_request'
+puma (3.12.6) lib/puma/server.rb:476:in `process_client'
+puma (3.12.6) lib/puma/server.rb:334:in `block in run'
+puma (3.12.6) lib/puma/thread_pool.rb:135:in `block in spawn_thread'
+Started GET "/api/v1/customers/1/subscriptions" for ::1 at 2022-09-22 15:23:19 -0500
+Processing by Api::V1::SubscriptionsController#index as */*
+  Parameters: {"customer_id"=>"1"}
+  [1m[36mCustomer Load (0.6ms)[0m  [1m[34mSELECT  "customers".* FROM "customers" WHERE "customers"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:4
+  [1m[36mSubscription Load (259.1ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."customer_id" = $1[0m  [["customer_id", 1]]
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:5
+Completed 200 OK in 347ms (Views: 3.8ms | ActiveRecord: 302.8ms)
+
+
+Started POST "/api/v1/customers/1/subscriptions" for ::1 at 2022-09-22 15:24:37 -0500
+Error occurred while parsing request parameters.
+Contents:
+
+{
+      tea_id: 1,
+      title: "first subscription",
+      price: "40 dollars",
+      frequency: "weekly"
+    }
+  
+ActionDispatch::Http::Parameters::ParseError (783: unexpected token at '{
+      tea_id: 1,
+      title: "first subscription",
+      price: "40 dollars",
+      frequency: "weekly"
+    }'):
+  
+actionpack (5.2.8.1) lib/action_dispatch/http/parameters.rb:117:in `rescue in parse_formatted_parameters'
+actionpack (5.2.8.1) lib/action_dispatch/http/parameters.rb:111:in `parse_formatted_parameters'
+actionpack (5.2.8.1) lib/action_dispatch/http/request.rb:381:in `block in POST'
+rack (2.2.4) lib/rack/request.rb:69:in `fetch'
+rack (2.2.4) lib/rack/request.rb:69:in `fetch_header'
+actionpack (5.2.8.1) lib/action_dispatch/http/request.rb:380:in `POST'
+actionpack (5.2.8.1) lib/action_dispatch/http/parameters.rb:55:in `parameters'
+actionpack (5.2.8.1) lib/action_controller/metal/params_wrapper.rb:290:in `_wrapper_enabled?'
+actionpack (5.2.8.1) lib/action_controller/metal/params_wrapper.rb:244:in `process_action'
+activerecord (5.2.8.1) lib/active_record/railties/controller_runtime.rb:24:in `process_action'
+actionpack (5.2.8.1) lib/abstract_controller/base.rb:134:in `process'
+actionpack (5.2.8.1) lib/action_controller/metal.rb:191:in `dispatch'
+actionpack (5.2.8.1) lib/action_controller/metal.rb:252:in `dispatch'
+actionpack (5.2.8.1) lib/action_dispatch/routing/route_set.rb:52:in `dispatch'
+actionpack (5.2.8.1) lib/action_dispatch/routing/route_set.rb:34:in `serve'
+actionpack (5.2.8.1) lib/action_dispatch/journey/router.rb:52:in `block in serve'
+actionpack (5.2.8.1) lib/action_dispatch/journey/router.rb:35:in `each'
+actionpack (5.2.8.1) lib/action_dispatch/journey/router.rb:35:in `serve'
+actionpack (5.2.8.1) lib/action_dispatch/routing/route_set.rb:840:in `call'
+rack (2.2.4) lib/rack/etag.rb:27:in `call'
+rack (2.2.4) lib/rack/conditional_get.rb:40:in `call'
+rack (2.2.4) lib/rack/head.rb:12:in `call'
+activerecord (5.2.8.1) lib/active_record/migration.rb:559:in `call'
+actionpack (5.2.8.1) lib/action_dispatch/middleware/callbacks.rb:28:in `block in call'
+activesupport (5.2.8.1) lib/active_support/callbacks.rb:98:in `run_callbacks'
+actionpack (5.2.8.1) lib/action_dispatch/middleware/callbacks.rb:26:in `call'
+actionpack (5.2.8.1) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (5.2.8.1) lib/action_dispatch/middleware/debug_exceptions.rb:61:in `call'
+actionpack (5.2.8.1) lib/action_dispatch/middleware/show_exceptions.rb:33:in `call'
+railties (5.2.8.1) lib/rails/rack/logger.rb:38:in `call_app'
+railties (5.2.8.1) lib/rails/rack/logger.rb:26:in `block in call'
+activesupport (5.2.8.1) lib/active_support/tagged_logging.rb:71:in `block in tagged'
+activesupport (5.2.8.1) lib/active_support/tagged_logging.rb:28:in `tagged'
+activesupport (5.2.8.1) lib/active_support/tagged_logging.rb:71:in `tagged'
+railties (5.2.8.1) lib/rails/rack/logger.rb:26:in `call'
+actionpack (5.2.8.1) lib/action_dispatch/middleware/remote_ip.rb:81:in `call'
+actionpack (5.2.8.1) lib/action_dispatch/middleware/request_id.rb:27:in `call'
+rack (2.2.4) lib/rack/runtime.rb:22:in `call'
+activesupport (5.2.8.1) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (5.2.8.1) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (5.2.8.1) lib/action_dispatch/middleware/static.rb:127:in `call'
+rack (2.2.4) lib/rack/sendfile.rb:110:in `call'
+railties (5.2.8.1) lib/rails/engine.rb:524:in `call'
+puma (3.12.6) lib/puma/configuration.rb:227:in `call'
+puma (3.12.6) lib/puma/server.rb:706:in `handle_request'
+puma (3.12.6) lib/puma/server.rb:476:in `process_client'
+puma (3.12.6) lib/puma/server.rb:334:in `block in run'
+puma (3.12.6) lib/puma/thread_pool.rb:135:in `block in spawn_thread'
+Started POST "/api/v1/customers/1/subscriptions" for ::1 at 2022-09-22 15:24:50 -0500
+Error occurred while parsing request parameters.
+Contents:
+
+{
+      tea_id: "1",
+      title: "first subscription",
+      price: "40 dollars",
+      frequency: "weekly"
+    }
+  
+ActionDispatch::Http::Parameters::ParseError (783: unexpected token at '{
+      tea_id: "1",
+      title: "first subscription",
+      price: "40 dollars",
+      frequency: "weekly"
+    }'):
+  
+actionpack (5.2.8.1) lib/action_dispatch/http/parameters.rb:117:in `rescue in parse_formatted_parameters'
+actionpack (5.2.8.1) lib/action_dispatch/http/parameters.rb:111:in `parse_formatted_parameters'
+actionpack (5.2.8.1) lib/action_dispatch/http/request.rb:381:in `block in POST'
+rack (2.2.4) lib/rack/request.rb:69:in `fetch'
+rack (2.2.4) lib/rack/request.rb:69:in `fetch_header'
+actionpack (5.2.8.1) lib/action_dispatch/http/request.rb:380:in `POST'
+actionpack (5.2.8.1) lib/action_dispatch/http/parameters.rb:55:in `parameters'
+actionpack (5.2.8.1) lib/action_controller/metal/params_wrapper.rb:290:in `_wrapper_enabled?'
+actionpack (5.2.8.1) lib/action_controller/metal/params_wrapper.rb:244:in `process_action'
+activerecord (5.2.8.1) lib/active_record/railties/controller_runtime.rb:24:in `process_action'
+actionpack (5.2.8.1) lib/abstract_controller/base.rb:134:in `process'
+actionpack (5.2.8.1) lib/action_controller/metal.rb:191:in `dispatch'
+actionpack (5.2.8.1) lib/action_controller/metal.rb:252:in `dispatch'
+actionpack (5.2.8.1) lib/action_dispatch/routing/route_set.rb:52:in `dispatch'
+actionpack (5.2.8.1) lib/action_dispatch/routing/route_set.rb:34:in `serve'
+actionpack (5.2.8.1) lib/action_dispatch/journey/router.rb:52:in `block in serve'
+actionpack (5.2.8.1) lib/action_dispatch/journey/router.rb:35:in `each'
+actionpack (5.2.8.1) lib/action_dispatch/journey/router.rb:35:in `serve'
+actionpack (5.2.8.1) lib/action_dispatch/routing/route_set.rb:840:in `call'
+rack (2.2.4) lib/rack/etag.rb:27:in `call'
+rack (2.2.4) lib/rack/conditional_get.rb:40:in `call'
+rack (2.2.4) lib/rack/head.rb:12:in `call'
+activerecord (5.2.8.1) lib/active_record/migration.rb:559:in `call'
+actionpack (5.2.8.1) lib/action_dispatch/middleware/callbacks.rb:28:in `block in call'
+activesupport (5.2.8.1) lib/active_support/callbacks.rb:98:in `run_callbacks'
+actionpack (5.2.8.1) lib/action_dispatch/middleware/callbacks.rb:26:in `call'
+actionpack (5.2.8.1) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (5.2.8.1) lib/action_dispatch/middleware/debug_exceptions.rb:61:in `call'
+actionpack (5.2.8.1) lib/action_dispatch/middleware/show_exceptions.rb:33:in `call'
+railties (5.2.8.1) lib/rails/rack/logger.rb:38:in `call_app'
+railties (5.2.8.1) lib/rails/rack/logger.rb:26:in `block in call'
+activesupport (5.2.8.1) lib/active_support/tagged_logging.rb:71:in `block in tagged'
+activesupport (5.2.8.1) lib/active_support/tagged_logging.rb:28:in `tagged'
+activesupport (5.2.8.1) lib/active_support/tagged_logging.rb:71:in `tagged'
+railties (5.2.8.1) lib/rails/rack/logger.rb:26:in `call'
+actionpack (5.2.8.1) lib/action_dispatch/middleware/remote_ip.rb:81:in `call'
+actionpack (5.2.8.1) lib/action_dispatch/middleware/request_id.rb:27:in `call'
+rack (2.2.4) lib/rack/runtime.rb:22:in `call'
+activesupport (5.2.8.1) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (5.2.8.1) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (5.2.8.1) lib/action_dispatch/middleware/static.rb:127:in `call'
+rack (2.2.4) lib/rack/sendfile.rb:110:in `call'
+railties (5.2.8.1) lib/rails/engine.rb:524:in `call'
+puma (3.12.6) lib/puma/configuration.rb:227:in `call'
+puma (3.12.6) lib/puma/server.rb:706:in `handle_request'
+puma (3.12.6) lib/puma/server.rb:476:in `process_client'
+puma (3.12.6) lib/puma/server.rb:334:in `block in run'
+puma (3.12.6) lib/puma/thread_pool.rb:135:in `block in spawn_thread'
+Started POST "/api/v1/customers/1/subscriptions" for ::1 at 2022-09-22 15:25:49 -0500
+Processing by Api::V1::SubscriptionsController#create as */*
+  Parameters: {"customer_id"=>"1"}
+  [1m[36mCustomer Load (0.8ms)[0m  [1m[34mSELECT  "customers".* FROM "customers" WHERE "customers"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:10
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:11
+  [1m[36mCustomer Load (0.4ms)[0m  [1m[34mSELECT  "customers".* FROM "customers" WHERE "customers"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:11
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:11
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:16
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:16
+Completed 500 Internal Server Error in 313ms (ActiveRecord: 9.8ms)
+
+
+  
+NameError (undefined local variable or method `user' for #<Api::V1::SubscriptionsController:0x00007fca673a19a0>
+Did you mean?  super):
+  
+app/controllers/api/v1/subscriptions_controller.rb:19:in `create'
+Started POST "/api/v1/customers/1/subscriptions?tea_id=1&title=first_subscription&price=40%20dollars&frequency=weekly" for ::1 at 2022-09-22 15:26:38 -0500
+Processing by Api::V1::SubscriptionsController#create as */*
+  Parameters: {"tea_id"=>"1", "title"=>"first_subscription", "price"=>"40 dollars", "frequency"=>"weekly", "customer_id"=>"1"}
+  [1m[36mCustomer Load (1.9ms)[0m  [1m[34mSELECT  "customers".* FROM "customers" WHERE "customers"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:10
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:11
+  [1m[36mTea Load (1.3ms)[0m  [1m[34mSELECT  "teas".* FROM "teas" WHERE "teas"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:11
+  [1m[36mCustomer Load (0.5ms)[0m  [1m[34mSELECT  "customers".* FROM "customers" WHERE "customers"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:11
+  [1m[36mSubscription Create (9.3ms)[0m  [1m[32mINSERT INTO "subscriptions" ("title", "price", "frequency", "tea_id", "customer_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["title", "first_subscription"], ["price", "40 dollars"], ["frequency", 0], ["tea_id", 1], ["customer_id", 1]]
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:11
+  [1m[35m (0.7ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:11
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:16
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:16
+Completed 200 OK in 69ms (Views: 0.4ms | ActiveRecord: 22.9ms)
+
+
+Started POST "/api/v1/customers/1/subscriptions?tea_id=2&title=first_subscription&price=50%20dollars&frequency=monthly" for ::1 at 2022-09-22 15:27:56 -0500
+Processing by Api::V1::SubscriptionsController#create as */*
+  Parameters: {"tea_id"=>"2", "title"=>"first_subscription", "price"=>"50 dollars", "frequency"=>"monthly", "customer_id"=>"1"}
+  [1m[36mCustomer Load (1.3ms)[0m  [1m[34mSELECT  "customers".* FROM "customers" WHERE "customers"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:10
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:11
+  [1m[36mTea Load (0.4ms)[0m  [1m[34mSELECT  "teas".* FROM "teas" WHERE "teas"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:11
+  [1m[36mCustomer Load (0.1ms)[0m  [1m[34mSELECT  "customers".* FROM "customers" WHERE "customers"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:11
+  [1m[36mSubscription Create (0.9ms)[0m  [1m[32mINSERT INTO "subscriptions" ("title", "price", "frequency", "tea_id", "customer_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["title", "first_subscription"], ["price", "50 dollars"], ["frequency", 1], ["tea_id", 2], ["customer_id", 1]]
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:11
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:11
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:16
+  [1m[35m (1.6ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:16
+Completed 200 OK in 13ms (Views: 0.5ms | ActiveRecord: 5.3ms)
+
+
+Started PATCH "/api/v1/customers/1/subscriptions/1?status=cancelled" for ::1 at 2022-09-22 15:28:15 -0500
+Processing by Api::V1::SubscriptionsController#update as */*
+  Parameters: {"status"=>"cancelled", "customer_id"=>"1", "id"=>"1"}
+Unpermitted parameter: :id
+  [1m[36mSubscription Load (0.5ms)[0m  [1m[34mSELECT  "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:25
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:25
+  [1m[36mTea Load (0.5ms)[0m  [1m[34mSELECT  "teas".* FROM "teas" WHERE "teas"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:25
+  [1m[36mCustomer Load (1.3ms)[0m  [1m[34mSELECT  "customers".* FROM "customers" WHERE "customers"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:25
+  [1m[36mSubscription Update (2.9ms)[0m  [1m[33mUPDATE "subscriptions" SET "status" = $1 WHERE "subscriptions"."id" = $2[0m  [["status", 1], ["id", 1]]
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:25
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:25
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:26
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:26
+Completed 200 OK in 14ms (Views: 0.4ms | ActiveRecord: 5.8ms)
+
+
+Started GET "/api/v1/customers/1/subscriptions" for ::1 at 2022-09-22 15:28:25 -0500
+Processing by Api::V1::SubscriptionsController#index as */*
+  Parameters: {"customer_id"=>"1"}
+  [1m[36mCustomer Load (0.7ms)[0m  [1m[34mSELECT  "customers".* FROM "customers" WHERE "customers"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:4
+  [1m[36mSubscription Load (4.4ms)[0m  [1m[34mSELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."customer_id" = $1[0m  [["customer_id", 1]]
+  ↳ app/controllers/api/v1/subscriptions_controller.rb:5
+Completed 200 OK in 12ms (Views: 4.6ms | ActiveRecord: 5.1ms)
+
+
