@@ -2,7 +2,7 @@
 
 # Overview
 
-- Take Home challenge in which the develoepr was asked to expose three endpoints of a sample tea subscription service
+- Take Home challenge in which the task was to expose three endpoints of a sample tea subscription service
 - Explores a many to many relationship, where Customers have many Teas through Subscriptions, and vice versa
 
 ---
