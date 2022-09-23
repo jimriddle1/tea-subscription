@@ -9,8 +9,6 @@ RSpec.describe 'Tea Subscription API' do
 
     subscription1 = Subscription.create(customer: customer1, tea: tea1, title: "babys first subscription", price: "50 dollars", status: "cancelled", frequency: "weekly")
     subscription2 = Subscription.create(customer: customer1, tea: tea2, title: "babys second subscription", price: "40 dollars", status: "active", frequency: "monthly")
-    # application_pets_1 = ApplicationPet.create(pet: pet_1, application_form: applicationform_1)
-
 
     get "/api/v1/customers/#{customer1.id}/subscriptions"
 
@@ -29,7 +27,6 @@ RSpec.describe 'Tea Subscription API' do
     expect(response_body[:data][0][:attributes][:frequency]).to eq("weekly")
     expect(response_body[:data][1][:attributes][:frequency]).to eq("monthly")
 
-
   end
 
   it 'returns all subscriptions of a given customer - sad path' do
@@ -39,16 +36,13 @@ RSpec.describe 'Tea Subscription API' do
 
     subscription1 = Subscription.create(customer: customer1, tea: tea1, title: "babys first subscription", price: "50 dollars", status: "cancelled", frequency: "weekly")
     subscription2 = Subscription.create(customer: customer1, tea: tea2, title: "babys second subscription", price: "40 dollars", status: "active", frequency: "monthly")
-    # application_pets_1 = ApplicationPet.create(pet: pet_1, application_form: applicationform_1)
-
 
     get "/api/v1/customers/99999999/subscriptions"
 
     response_body = JSON.parse(response.body, symbolize_names: true)
-    # binding.pry
+
     expect(response).to_not be_successful
     expect(response_body[:data][:errors]).to eq("Customer does not exist")
-
 
   end
 
@@ -64,10 +58,8 @@ RSpec.describe 'Tea Subscription API' do
       frequency: "weekly"
     }
 
-    # post "/api/v1/customers/#{customer1.id}/subscriptions", params: JSON.generate(subscription_params)
     post "/api/v1/customers/#{customer1.id}/subscriptions", params: subscription_params
 
-    # post "/api/v1/customers/#{customer.id}/subscriptions", params: params
     expect(response).to be_successful
     response_body = JSON.parse(response.body, symbolize_names: true)
 
@@ -75,7 +67,6 @@ RSpec.describe 'Tea Subscription API' do
     expect(response_body[:data][:attributes][:price]).to eq("40 dollars")
     expect(response_body[:data][:attributes][:frequency]).to eq("weekly")
     expect(response_body[:data][:attributes][:status]).to eq("active")
-    # binding.pry
 
   end
 
@@ -133,6 +124,5 @@ RSpec.describe 'Tea Subscription API' do
     expect(response_body[:data][:errors]).to eq("Subscription does not exist")
 
   end
-
 
 end
