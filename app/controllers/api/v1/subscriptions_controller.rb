@@ -1,7 +1,6 @@
 class Api::V1::SubscriptionsController < ApplicationController
 
   def index
-    # binding.pry
     if Customer.where("id = #{params[:customer_id]}").count == 0
       render json: { data: { errors: "Customer does not exist"} }, status: 401
     else
@@ -11,7 +10,6 @@ class Api::V1::SubscriptionsController < ApplicationController
   end
 
   def create
-    # binding.pry
     customer = Customer.find(params[:customer_id])
     subscription = Subscription.create(title: params[:title],
               price: params[:price],
