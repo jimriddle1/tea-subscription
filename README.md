@@ -117,11 +117,6 @@ RESPONSE:
 ``` ruby
 [GET]  /api/v1/customers/#{customer.id}/subscriptions
 
-
-Required BODY: 
- - origin
- - destination
- - api_key
 ```
 
  Example:
